@@ -7,30 +7,38 @@ const aboutMe = {
   age: 20,
   identity: "Helicopter",
 };
-
+app.set("view engine", "ejs");
+app.set("views", "views");
 app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.get("/aboutme", (req, res) => {
-  res.json(aboutMe);
+const entries = [
+  { title: "First note", body: "Notes from the first session." },
+  { title: "Second note", body: "Notes from the second session." },
+  { title: "Third note", body: "Notes from the third session." },
+];
+
+app.get("/entries", (req, res) => {
+  res.set("X-Total-Count", entries.length);
+  res.status(200).render("entries", { title: "My Notes", entries });
 });
-
-app.get("/add", (req, res) => {
-  const { name, age } = req.query;
-  const parsedAge = Number(age);
-
-  if (!name || !Number.isInteger(parsedAge) || parsedAge < 0) {
-    return res.status(400).json({
-      error: "Provide a name and a non-negative integer age.",
-    });
+app.delete("/entries/:index", (req, res) => {
+  const index = parseInt(req.params.index, 10);
+  if (isNaN(index) || index < 1 || index > entries.length) {
+    return res.status(400).send("Invalid index");
   }
-
-  aboutMe.name = name;
-  aboutMe.age = parsedAge;
-
-  res.json(aboutMe);
+  entries.splice(index - 1, 1);
+  res.status(200).send("Entry deleted");
+});
+app.post("/entries", (req, res) => {
+  const { title, body } = req.body;
+  if (!title || !body) {
+    return res.status(400).send("Title and body are required");
+  }
+  entries.push({ title, body });
+  res.status(201).send("Entry created");
 });
 
 app.listen(PORT, () => {

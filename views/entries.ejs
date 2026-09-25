@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style.css">
+    <title><%= title %></title>
+  </head>
+  <body>
+    <header class="site-header">
+      <h1><%= title %></h1>
+    </header>
+    <ul>
+      <% entries.forEach(entry => { %>
+        <li><%= entry.title %></li>
+      <% }); %>
+    </ul>
+  </body>
+</html>
