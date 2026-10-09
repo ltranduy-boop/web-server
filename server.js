@@ -55,6 +55,14 @@ app.get("/search", (req, res) => {
   };
   res.json(pair);
 });
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+app.get("/slow", async (req, res) => {
+  await wait(5000);
+  res.send("Done waiting.");
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
