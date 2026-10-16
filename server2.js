@@ -1,5 +1,12 @@
 import express from "express";
 import entriesRouter from "./routes/entries.js";
+import mongoose from "mongoose";
+import morgan from "morgan";
+
+await mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://dev:devpassword@mongo:27017/devdb?authSource=admin",
+);
 
 const app = express();
 const PORT = 3000;
@@ -13,7 +20,7 @@ app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
-
+app.use(morgan("dev"));
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.use(express.json());

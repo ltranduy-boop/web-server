@@ -21,7 +21,7 @@ const makeButton = (className, label) => {
 // Build an entry's <li> the same way the server-rendered page does.
 const buildItem = (entry) => {
   const item = document.createElement("li");
-  item.dataset.id = list.children.length;
+  item.dataset.id = entry.id;
   item.dataset.title = entry.title;
   item.dataset.body = entry.body;
 
@@ -35,14 +35,6 @@ const buildItem = (entry) => {
     makeButton("delete-btn", "Delete"),
   );
   return item;
-};
-
-// An entry's id is its position in the server's array, so deleting one
-// shifts every entry after it down by one. Renumber the page to match.
-const renumber = () => {
-  [...list.children].forEach((item, index) => {
-    item.dataset.id = index;
-  });
 };
 
 // Setting .value, not a value="..." attribute in a string, so a quote in the
@@ -185,7 +177,6 @@ list.addEventListener("click", async (event) => {
       return;
     }
     item.remove();
-    renumber();
   } catch {
     alert(
       "That entry was not deleted: the server did not answer properly. Please try again.",
