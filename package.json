@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test1": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "start2": "node server2.js",
     "start3": "node server3.js"
@@ -18,5 +19,8 @@
     "express": "^5.2.1",
     "mongoose": "^9.11.1",
     "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2"
   }
 }

@@ -8,7 +8,8 @@ import {
 } from "../repositories/entriesRepository.js";
 import { toEntryDto } from "../dtos/entryDto.js";
 const validateEntry = ({ title, body }) => {
-  if (!title || !body) return Err("title and body are required");
+  if (!title || !body || title.trim() === "" || body.trim() === "")
+    return Err("title and body are required");
   return Ok({ title, body });
 };
 export const listEntries = async () => (await getAll()).map(toEntryDto);
